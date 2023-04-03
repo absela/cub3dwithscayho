@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   libft.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: abelahce <abelahce@student.42.fr>          +#+  +:+       +#+        */
+/*   By: abelahce <abelahce@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/11/07 10:28:58 by abelahce          #+#    #+#             */
-/*   Updated: 2021/11/29 04:58:36 by abelahce         ###   ########.fr       */
+/*   Updated: 2023/04/02 05:10:54 by abelahce         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,6 +16,7 @@
 # include <unistd.h>
 # include <stdlib.h>
 # include <fcntl.h>
+# include <stdio.h>
 
 size_t	ft_strlen(const char *str);
 int		ft_toupper(int c);

@@ -2,7 +2,7 @@
 
 NAME = cub3d
 
-SRCS = cub3d.c 
+SRCS = cub3d.c parsing1.c parsing2.c parsing3.c parsing4.c utils.c
 
 OBJS = $(SRCS:.c=.o)
 
