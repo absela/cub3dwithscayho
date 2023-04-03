@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: absela <absela@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abelahce <abelahce@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 00:05:13 by abelahce          #+#    #+#             */
-/*   Updated: 2023/04/02 02:53:27 by absela           ###   ########.fr       */
+/*   Updated: 2023/04/03 01:11:23 by abelahce         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,6 +15,7 @@
 void	check_leaks(void)
 {
 	system("leaks cub3d");
+	exit(0);
 }
 
 // void	my_mlx_pixel_put(t_img *data, int x, int y, int color)
@@ -43,6 +44,22 @@ void	ft_free(char *str)
 	if (!str)
 		free(str);
 	str = NULL;
+}
+
+void	free_data(t_cub *data)
+{
+	free(data->info->c);
+	free(data->info->f);
+	free(data->info->no);
+	free(data->info->we);
+	free(data->info->so);
+	free(data->info->ea);
+	free(data->info);
+	free(data->ply);
+	ft_free(data->map_name);
+	ft_free(data->map);
+	free_table(data->map_final);
+	free(data);
 }
 
 void	ft_error(char *str, t_cub *data)
@@ -117,46 +134,75 @@ int	str_search(char *str, int n)
 	return (i);
 }
 
-int	store_info(char *check, t_cub *data)
+int	store_info3(char *check, t_cub *data)
 {
-	if (!ft_strncmp(check, "SO ", 3))
+	if (!ft_strncmp(check, "NO ", 3))
 	{
-		data->info->so = ft_strtrim(ft_substr(check, 2, str_search(check + 2, '\n')), " ");
-		data->info->flag_so++;
-		return (1);
-	}
-	else if (!ft_strncmp(check, "WE ", 3))
-	{
-		data->info->we = ft_strtrim(ft_substr(check, 2, str_search(check + 2, '\n')), " ");
-		data->info->flag_we++;
-		return (1);
-	}
-	else if (!ft_strncmp(check, "EA ", 3))
-	{
-		data->info->ea = ft_strtrim(ft_substr(check, 2, str_search(check + 2, '\n')), " ");
-		data->info->flag_ea++;
-		return (1);
-	}
-	else if (!ft_strncmp(check, "NO ", 3))
-	{
-		data->info->no = ft_strtrim(ft_substr(check, 2, str_search(check + 2, '\n')), " ");
+		data->info->no = ft_strtrim(ft_substr(check, 2,
+					str_search(check + 2, '\n')), " ");
 		data->info->flag_no++;
+		free(check);
 		return (1);
 	}
 	else if (!ft_strncmp(check, "F ", 2))
 	{
-		data->info->f = ft_strtrim(ft_substr(check, 1, str_search(check + 1, '\n')), " ");
+		data->info->f = ft_strtrim(ft_substr(check, 1,
+					str_search(check + 1, '\n')), " ");
 		data->info->flag_f++;
+		free(check);
 		return (1);
+	}
+	return (0);
+}
+
+int	store_info2(char *check, t_cub *data)
+{
+	if (!ft_strncmp(check, "WE ", 3))
+	{
+		data->info->we = ft_strtrim(ft_substr(check, 2,
+					str_search(check + 2, '\n')), " ");
+		data->info->flag_we++;
+		return (free(check), 1);
+	}
+	else if (!ft_strncmp(check, "EA ", 3))
+	{
+		data->info->ea = ft_strtrim(ft_substr(check, 2,
+					str_search(check + 2, '\n')), " ");
+		data->info->flag_ea++;
+		return (free(check), 1);
 	}
 	else if (!ft_strncmp(check, "C ", 2))
 	{
-		data->info->c = ft_strtrim(ft_substr(check, 1, str_search(check + 1, '\n'))," ");
+		data->info->c = ft_strtrim(ft_substr(check, 1,
+					str_search(check + 1, '\n')), " ");
 		data->info->flag_c++;
+		return (free(check), 1);
+	}
+	else if (store_info3(check, data))
+		return (1);
+	return (0);
+}
+
+int	store_info(char *check, t_cub *data)
+{
+	if (!ft_strncmp(check, "SO ", 3))
+	{
+		data->info->so = ft_strtrim(ft_substr(check, 2,
+					str_search(check + 2, '\n')), " ");
+		data->info->flag_so++;
+		free(check);
+		return (1);
+	}
+	else if (store_info2(check, data))
+	{
 		return (1);
 	}
 	else if (check[0] == '\n')
+	{
+		free(check);
 		return (1);
+	}
+	free(check);
 	return (0);
 }
 
@@ -181,7 +227,10 @@ void	get_map_info(t_cub *data)
 			;
 		else
 			ft_error("error in the map contents !\n", NULL);
-		check = ft_strchr(check, '\n') + 1;
+		check = ft_strchr(check, '\n');
+		if (!check)
+			ft_error("map ended without finding all the compenent  !!\n", NULL);
+		check++;
 	}
 }
 
@@ -234,6 +283,7 @@ void	store_colors(int	*flor, char *str)
 	if (ft_strlen(tmp[2]) > 3 || ft_atoi(tmp[2]) > 255 || ft_atoi(tmp[2]) < 0)
 		ft_error("colors numbers are fals !!\n", NULL);
 	flor[2] = ft_atoi(tmp[2]);
+	free_table(tmp);
 }
 
 void	parse_info(t_cub *data)
@@ -433,6 +483,7 @@ int	main(int ac, char **av)
 {
 	t_cub	*data;
 
+	// atexit(check_leaks);
 	if (ac != 2 || ft_strlen(av[1]) < 5 || \
 		ft_strncmp((av[1] + ft_strlen(av[1]) - 4), ".cub", 4))
 		ft_error("arguments error !\n", NULL);
@@ -441,4 +492,7 @@ int	main(int ac, char **av)
 		ft_error("unable to allocate !", data);
 	data->map_name = ft_strdup(av[1]);
 	parse(data);
+	free_data(data);
+	printf("DONE\n");
+	system("leaks cub3d");
 }

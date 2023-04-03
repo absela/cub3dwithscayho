@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   cub3d.h                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: absela <absela@student.42.fr>              +#+  +:+       +#+        */
+/*   By: abelahce <abelahce@student.1337.ma>        +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/03/08 00:51:53 by abelahce          #+#    #+#             */
-/*   Updated: 2023/04/02 02:21:17 by absela           ###   ########.fr       */
+/*   Updated: 2023/04/03 01:10:41 by abelahce         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,14 +55,14 @@ typedef struct s_info
 	char	*ea;
 	char	*f;
 	char	*c;
-	int	flag_so;
-	int	flag_no;
-	int	flag_we;
-	int	flag_ea;
-	int	flag_f;
-	int	flag_c;
-	int	*floor_color;
-	int	*sky_color;
+	int		flag_so;
+	int		flag_no;
+	int		flag_we;
+	int		flag_ea;
+	int		flag_f;
+	int		flag_c;
+	int		*floor_color;
+	int		*sky_color;
 } t_info;
 
 typedef struct s_cub
