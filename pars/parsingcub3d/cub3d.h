@@ -1,0 +1,108 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   cub3d.h                                            :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: abelahce <abelahce@student.1337.ma>        +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2023/04/03 02:37:42 by abelahce          #+#    #+#             */
+/*   Updated: 2023/04/03 02:45:36 by abelahce         ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef CUB3D_H
+# define CUB3D_H
+
+// i ------> y
+// j ------|> x
+// 	90
+// 0		180
+// 	270
+
+# define WWITH 900.0
+# define HHEITH 800
+# define TILE 64
+# define ROSE 0xFF00FF
+# define YOLLOW 0xFFFF00
+# define PURPLE 0x8000FF
+# define SKY 0x00FFFF
+# define PI 3.14159265359
+# define MVSPEED 1
+# define TUSPEED 0.1
+# define FOV 60.0
+# include <fcntl.h>
+# include <stdio.h>
+# include <stdlib.h>
+# include <unistd.h>
+# include <math.h>
+# include "mlx.h"
+# include "libft/libft.h"
+
+typedef struct s_ply_info
+{
+	double	x;
+	double	y;
+	double	angle;
+	int		walk;
+	int		rotate;
+}	t_ply_info;
+
+typedef struct s_info
+{
+	char	*so;
+	char	*no;
+	char	*we;
+	char	*ea;
+	char	*f;
+	char	*c;
+	int		flag_so;
+	int		flag_no;
+	int		flag_we;
+	int		flag_ea;
+	int		flag_f;
+	int		flag_c;
+	int		*floor_color;
+	int		*sky_color;
+}	t_info;
+
+typedef struct s_cub
+{
+	char		*map_name;
+	char		*map;
+	char		**map_final;
+	int			map_lines;
+	int			map_collumn;
+	t_info		*info;
+	t_ply_info	*ply;
+}	t_cub;
+
+// void	my_mlx_pixel_put(t_img *data, int x, int y, int color);
+void	free_table(char **tab);
+void	fill_map(t_cub *data);
+void	fill_map(t_cub *data);
+void	re_allocate_map(t_cub *data);
+void	get_ply_info(t_cub *data);
+void	store_player_info(t_cub *data, int i, int j);
+void	parse_info(t_cub *data);
+void	check_map(t_cub *data);
+void	mutate_map(t_cub *data);
+void	parse_map(t_cub *data);
+void	read_map(t_cub *data);
+void	parse(t_cub *data);
+void	free_table(char **tab);
+void	ft_free(char *str);
+void	free_data(t_cub *data);
+void	ft_error(char *str, t_cub *data);
+void	check_leaks(void);
+void	init_my_data(t_cub *data);
+char	*r_map(char	*str);
+int		str_search(char *str, int n);
+void	get_map_info(t_cub *data);
+void	store_colors(int	*flor, char *str);
+int		store_info3(char *check, t_cub *data);
+int		store_info2(char *check, t_cub *data);
+int		store_info(char *check, t_cub *data);
+void	parse_each_textures(char *str);
+void	parse_each_color(char *str);
+
+#endif
